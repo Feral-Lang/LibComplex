@@ -13,60 +13,76 @@
 
 #include "../include/complex_type.hpp"
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////// VAR_COMPLEX //////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////// VAR_COMPLEX ////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
-var_complex_t::var_complex_t( const mpc_t val, const size_t & src_id, const size_t & idx )
-	: var_base_t( type_id< var_complex_t >(), src_id, idx, false, false )
+var_complex_t::var_complex_t(const mpc_t val, const size_t &src_id, const size_t &idx)
+	: var_base_t(type_id<var_complex_t>(), src_id, idx, false, false)
 {
-	mpc_init2( m_val, 256 );
-	mpc_set( m_val, val, MPC_RNDND );
+	mpc_init2(m_val, 256);
+	mpc_set(m_val, val, MPC_RNDND);
 }
-var_complex_t::var_complex_t( const mpz_t real, const mpz_t imag, const size_t & src_id, const size_t & idx )
-	: var_base_t( type_id< var_complex_t >(), src_id, idx, false, false )
+var_complex_t::var_complex_t(const mpz_t real, const mpz_t imag, const size_t &src_id,
+			     const size_t &idx)
+	: var_base_t(type_id<var_complex_t>(), src_id, idx, false, false)
 {
-	mpc_init2( m_val, 256 );
-	mpc_set_z_z( m_val, real, imag, MPC_RNDND );
+	mpc_init2(m_val, 256);
+	mpc_set_z_z(m_val, real, imag, MPC_RNDND);
 }
-var_complex_t::var_complex_t( const mpfr_t real, const mpfr_t imag, const size_t & src_id, const size_t & idx )
-	: var_base_t( type_id< var_complex_t >(), src_id, idx, false, false )
+var_complex_t::var_complex_t(const mpfr_t real, const mpfr_t imag, const size_t &src_id,
+			     const size_t &idx)
+	: var_base_t(type_id<var_complex_t>(), src_id, idx, false, false)
 {
-	mpc_init2( m_val, 256 );
-	mpc_set_fr_fr( m_val, real, imag, MPC_RNDND );
+	mpc_init2(m_val, 256);
+	mpc_set_fr_fr(m_val, real, imag, MPC_RNDND);
 }
-var_complex_t::var_complex_t( const mpz_t real, const mpfr_t imag, const size_t & src_id, const size_t & idx )
-	: var_base_t( type_id< var_complex_t >(), src_id, idx, false, false )
+var_complex_t::var_complex_t(const mpz_t real, const mpfr_t imag, const size_t &src_id,
+			     const size_t &idx)
+	: var_base_t(type_id<var_complex_t>(), src_id, idx, false, false)
 {
-	mpc_init2( m_val, 256 );
-	mpc_set_z_fr( m_val, real, imag, MPC_RNDND );
+	mpc_init2(m_val, 256);
+	mpc_set_z_fr(m_val, real, imag, MPC_RNDND);
 }
-var_complex_t::var_complex_t( const mpfr_t real, const mpz_t imag, const size_t & src_id, const size_t & idx )
-	: var_base_t( type_id< var_complex_t >(), src_id, idx, false, false )
+var_complex_t::var_complex_t(const mpfr_t real, const mpz_t imag, const size_t &src_id,
+			     const size_t &idx)
+	: var_base_t(type_id<var_complex_t>(), src_id, idx, false, false)
 {
-	mpc_init2( m_val, 256 );
-	mpc_set_fr_z( m_val, real, imag, MPC_RNDND );
+	mpc_init2(m_val, 256);
+	mpc_set_fr_z(m_val, real, imag, MPC_RNDND);
 }
-var_complex_t::var_complex_t( const int & real, const int & imag, const size_t & src_id, const size_t & idx )
-	: var_base_t( type_id< var_complex_t >(), src_id, idx, false, false )
+var_complex_t::var_complex_t(const int &real, const int &imag, const size_t &src_id,
+			     const size_t &idx)
+	: var_base_t(type_id<var_complex_t>(), src_id, idx, false, false)
 {
-	mpc_init2( m_val, 256 );
-	mpc_set_si_si( m_val, real, imag, MPC_RNDND );
+	mpc_init2(m_val, 256);
+	mpc_set_si_si(m_val, real, imag, MPC_RNDND);
 }
-var_complex_t::var_complex_t( const char * val, const size_t & src_id, const size_t & idx )
-	: var_base_t( type_id< var_complex_t >(), src_id, idx, false, false )
+var_complex_t::var_complex_t(const char *val, const size_t &src_id, const size_t &idx)
+	: var_base_t(type_id<var_complex_t>(), src_id, idx, false, false)
 {
-	mpc_init2( m_val, 256 );
-	mpc_set_str( m_val, val, 10, MPC_RNDND );
+	mpc_init2(m_val, 256);
+	mpc_set_str(m_val, val, 10, MPC_RNDND);
 }
 var_complex_t::~var_complex_t()
 {
-	mpc_clear( m_val );
+	mpc_clear(m_val);
 }
 
-var_base_t * var_complex_t::copy( const size_t & src_id, const size_t & idx ) { return new var_complex_t( m_val, src_id, idx ); }
-mpc_t & var_complex_t::get() { return m_val; }
-void var_complex_t::set( var_base_t * from )
+var_base_t *var_complex_t::copy(const size_t &src_id, const size_t &idx)
 {
-	mpc_set( m_val, COMPLEX( from )->get(), MPC_RNDND );
+	return new var_complex_t(m_val, src_id, idx);
 }
+mpc_t &var_complex_t::get()
+{
+	return m_val;
+}
+void var_complex_t::set(var_base_t *from)
+{
+	mpc_set(m_val, COMPLEX(from)->get(), MPC_RNDND);
+}
+
+int mpc_set_z_fr(mpc_ptr rop, mpz_srcptr re, mpfr_srcptr im, mpc_rnd_t rnd)
+MPC_SET_X_Y(z, fr, rop, re, im, rnd);
+int mpc_set_fr_z(mpc_ptr rop, mpfr_srcptr re, mpz_srcptr im, mpc_rnd_t rnd)
+MPC_SET_X_Y(fr, z, rop, re, im, rnd);
