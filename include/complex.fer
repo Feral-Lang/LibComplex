@@ -1,5 +1,5 @@
-mload('complex/complex');
+mload('complex/Complex');
 
 let new = fn(real = 0.0, imag = 0.0) {
-	return new_native(real, imag);
+	return newNative(real, imag);
 };

@@ -8,11 +8,11 @@ for let y = -1.0; y < 1.0; y += 0.05 {
 	for let x = -2.05; x < 0.55; x += 0.03 {
 		let xy = complex.new(x, y);
 		let z = complex.new();
-		for i in range( 0, 50 ) {
-			z = ( z ** 2 ) + xy;
+		for i in range(0, 20) {
+			z = (z ** 2) + xy;
 		}
-		if z.abs() < 2.0 { io.print('█'); }
-		else { io.print(' '); }
+		if z.abs() < 2.0 { io.print(' '); }
+		else { io.print(';'); }
 	}
 	io.println();
 }
