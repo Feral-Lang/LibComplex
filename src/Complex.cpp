@@ -4,8 +4,8 @@
 /////////////////////////////////////////// Functions ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-Var *complex_new_native(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
-			const Map<String, AssnArgData> &assn_args)
+Var *complexNewNative(Interpreter &vm, ModuleLoc loc, Span<Var *> args,
+		      const StringMap<AssnArgData> &assn_args)
 {
 	if(!args[1]->is<VarInt>() && !args[1]->is<VarFlt>()) {
 		vm.fail(loc, "argument 1 to complex.new() must be of type 'int' or 'flt', found: ",
@@ -43,17 +43,17 @@ Var *complex_new_native(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
 	return res;
 }
 
-#define LOGICC_FUNC(name, sym)                                                      \
-	Var *complex##name(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args, \
-			   const Map<String, AssnArgData> &assn_args)               \
-	{                                                                           \
-		if(args[1]->is<VarComplex>()) {                                     \
-			return mpc_cmp(as<VarComplex>(args[0])->get(),              \
-				       as<VarComplex>(args[1])->get()) sym 0        \
-			       ? vm.getTrue()                                       \
-			       : vm.getFalse();                                     \
-		}                                                                   \
-		return vm.getFalse();                                               \
+#define LOGICC_FUNC(name, sym)                                               \
+	Var *complex##name(Interpreter &vm, ModuleLoc loc, Span<Var *> args, \
+			   const StringMap<AssnArgData> &assn_args)          \
+	{                                                                    \
+		if(args[1]->is<VarComplex>()) {                              \
+			return mpc_cmp(as<VarComplex>(args[0])->get(),       \
+				       as<VarComplex>(args[1])->get()) sym 0 \
+			       ? vm.getTrue()                                \
+			       : vm.getFalse();                              \
+		}                                                            \
+		return vm.getFalse();                                        \
 	}
 
 LOGICC_FUNC(Lt, <)
@@ -61,8 +61,8 @@ LOGICC_FUNC(Gt, >)
 LOGICC_FUNC(Le, <=)
 LOGICC_FUNC(Ge, >=)
 
-Var *complexAdd(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
-		const Map<String, AssnArgData> &assn_args)
+Var *complexAdd(Interpreter &vm, ModuleLoc loc, Span<Var *> args,
+		const StringMap<AssnArgData> &assn_args)
 {
 	if(!args[1]->is<VarInt>() && !args[1]->is<VarFlt>() && !args[1]->is<VarComplex>()) {
 		vm.fail(loc,
@@ -83,8 +83,8 @@ Var *complexAdd(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
 	return res;
 }
 
-Var *complexSub(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
-		const Map<String, AssnArgData> &assn_args)
+Var *complexSub(Interpreter &vm, ModuleLoc loc, Span<Var *> args,
+		const StringMap<AssnArgData> &assn_args)
 {
 	if(!args[1]->is<VarInt>() && !args[1]->is<VarFlt>() && !args[1]->is<VarComplex>()) {
 		vm.fail(loc,
@@ -105,8 +105,8 @@ Var *complexSub(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
 	return res;
 }
 
-Var *complexMul(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
-		const Map<String, AssnArgData> &assn_args)
+Var *complexMul(Interpreter &vm, ModuleLoc loc, Span<Var *> args,
+		const StringMap<AssnArgData> &assn_args)
 {
 	if(!args[1]->is<VarInt>() && !args[1]->is<VarFlt>() && !args[1]->is<VarComplex>()) {
 		vm.fail(loc,
@@ -127,8 +127,8 @@ Var *complexMul(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
 	return res;
 }
 
-Var *complexDiv(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
-		const Map<String, AssnArgData> &assn_args)
+Var *complexDiv(Interpreter &vm, ModuleLoc loc, Span<Var *> args,
+		const StringMap<AssnArgData> &assn_args)
 {
 	if(!args[1]->is<VarInt>() && !args[1]->is<VarFlt>() && !args[1]->is<VarComplex>()) {
 		vm.fail(loc,
@@ -149,8 +149,8 @@ Var *complexDiv(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
 	return res;
 }
 
-Var *complexAddAssn(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
-		    const Map<String, AssnArgData> &assn_args)
+Var *complexAddAssn(Interpreter &vm, ModuleLoc loc, Span<Var *> args,
+		    const StringMap<AssnArgData> &assn_args)
 {
 	if(!args[1]->is<VarInt>() && !args[1]->is<VarFlt>() && !args[1]->is<VarComplex>()) {
 		vm.fail(loc,
@@ -170,8 +170,8 @@ Var *complexAddAssn(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
 	return args[0];
 }
 
-Var *complexSubAssn(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
-		    const Map<String, AssnArgData> &assn_args)
+Var *complexSubAssn(Interpreter &vm, ModuleLoc loc, Span<Var *> args,
+		    const StringMap<AssnArgData> &assn_args)
 {
 	if(!args[1]->is<VarInt>() && !args[1]->is<VarFlt>() && !args[1]->is<VarComplex>()) {
 		vm.fail(loc,
@@ -191,8 +191,8 @@ Var *complexSubAssn(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
 	return args[0];
 }
 
-Var *complexMulAssn(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
-		    const Map<String, AssnArgData> &assn_args)
+Var *complexMulAssn(Interpreter &vm, ModuleLoc loc, Span<Var *> args,
+		    const StringMap<AssnArgData> &assn_args)
 {
 	if(!args[1]->is<VarInt>() && !args[1]->is<VarFlt>() && !args[1]->is<VarComplex>()) {
 		vm.fail(loc,
@@ -212,8 +212,8 @@ Var *complexMulAssn(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
 	return args[0];
 }
 
-Var *complexDivAssn(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
-		    const Map<String, AssnArgData> &assn_args)
+Var *complexDivAssn(Interpreter &vm, ModuleLoc loc, Span<Var *> args,
+		    const StringMap<AssnArgData> &assn_args)
 {
 	if(!args[1]->is<VarInt>() && !args[1]->is<VarFlt>() && !args[1]->is<VarComplex>()) {
 		vm.fail(loc,
@@ -233,8 +233,8 @@ Var *complexDivAssn(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
 	return args[0];
 }
 
-Var *complexEq(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
-	       const Map<String, AssnArgData> &assn_args)
+Var *complexEq(Interpreter &vm, ModuleLoc loc, Span<Var *> args,
+	       const StringMap<AssnArgData> &assn_args)
 {
 	if(args[1]->is<VarComplex>()) {
 		return mpc_cmp(as<VarComplex>(args[0])->get(), as<VarComplex>(args[1])->get()) == 0
@@ -244,8 +244,8 @@ Var *complexEq(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
 	return vm.getFalse();
 }
 
-Var *complexNe(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
-	       const Map<String, AssnArgData> &assn_args)
+Var *complexNe(Interpreter &vm, ModuleLoc loc, Span<Var *> args,
+	       const StringMap<AssnArgData> &assn_args)
 {
 	if(args[1]->is<VarComplex>()) {
 		return mpc_cmp(as<VarComplex>(args[0])->get(), as<VarComplex>(args[1])->get()) != 0
@@ -255,46 +255,46 @@ Var *complexNe(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
 	return vm.getTrue();
 }
 
-Var *complexPreInc(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
-		   const Map<String, AssnArgData> &assn_args)
+Var *complexPreInc(Interpreter &vm, ModuleLoc loc, Span<Var *> args,
+		   const StringMap<AssnArgData> &assn_args)
 {
 	mpc_add_ui(as<VarComplex>(args[0])->get(), as<VarComplex>(args[0])->get(), 1, MPC_RNDND);
 	return args[0];
 }
 
-Var *complexPostInc(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
-		    const Map<String, AssnArgData> &assn_args)
+Var *complexPostInc(Interpreter &vm, ModuleLoc loc, Span<Var *> args,
+		    const StringMap<AssnArgData> &assn_args)
 {
 	VarComplex *res = vm.makeVar<VarComplex>(loc, as<VarComplex>(args[0])->get());
 	mpc_add_ui(as<VarComplex>(args[0])->get(), as<VarComplex>(args[0])->get(), 1, MPC_RNDND);
 	return res;
 }
 
-Var *complexPreDec(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
-		   const Map<String, AssnArgData> &assn_args)
+Var *complexPreDec(Interpreter &vm, ModuleLoc loc, Span<Var *> args,
+		   const StringMap<AssnArgData> &assn_args)
 {
 	mpc_sub_ui(as<VarComplex>(args[0])->get(), as<VarComplex>(args[0])->get(), 1, MPC_RNDND);
 	return args[0];
 }
 
-Var *complexPostDec(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
-		    const Map<String, AssnArgData> &assn_args)
+Var *complexPostDec(Interpreter &vm, ModuleLoc loc, Span<Var *> args,
+		    const StringMap<AssnArgData> &assn_args)
 {
 	VarComplex *res = vm.makeVar<VarComplex>(loc, as<VarComplex>(args[0])->get());
 	mpc_sub_ui(as<VarComplex>(args[0])->get(), as<VarComplex>(args[0])->get(), 1, MPC_RNDND);
 	return res;
 }
 
-Var *complexUSub(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
-		 const Map<String, AssnArgData> &assn_args)
+Var *complexUSub(Interpreter &vm, ModuleLoc loc, Span<Var *> args,
+		 const StringMap<AssnArgData> &assn_args)
 {
 	VarComplex *res = vm.makeVar<VarComplex>(loc, as<VarComplex>(args[0])->get());
 	mpc_neg(res->get(), as<VarComplex>(args[0])->get(), MPC_RNDND);
 	return res;
 }
 
-Var *complexPow(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
-		const Map<String, AssnArgData> &assn_args)
+Var *complexPow(Interpreter &vm, ModuleLoc loc, Span<Var *> args,
+		const StringMap<AssnArgData> &assn_args)
 {
 	if(!args[1]->is<VarInt>() && !args[1]->is<VarFlt>()) {
 		vm.fail(loc, "power must be an 'int' or 'flt', found: ", vm.getTypeName(args[1]));
@@ -310,16 +310,16 @@ Var *complexPow(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
 	return res;
 }
 
-Var *complexAbs(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
-		const Map<String, AssnArgData> &assn_args)
+Var *complexAbs(Interpreter &vm, ModuleLoc loc, Span<Var *> args,
+		const StringMap<AssnArgData> &assn_args)
 {
 	VarFlt *res = vm.makeVar<VarFlt>(loc, 0.0);
 	mpc_abs(res->get(), as<VarComplex>(args[0])->get(), mpfr_get_default_rounding_mode());
 	return res;
 }
 
-Var *complexSet(Interpreter &vm, const ModuleLoc *loc, Span<Var *> args,
-		const Map<String, AssnArgData> &assn_args)
+Var *complexSet(Interpreter &vm, ModuleLoc loc, Span<Var *> args,
+		const StringMap<AssnArgData> &assn_args)
 {
 	if(!args[1]->is<VarInt>() && !args[1]->is<VarFlt>()) {
 		vm.fail(loc, "argument 1 to complex.new() must be of type 'int' or 'flt', found: ",
@@ -360,10 +360,10 @@ INIT_MODULE(Complex)
 {
 	VarModule *mod = vm.getCurrModule();
 
-	mod->addNativeFn("newNative", complex_new_native, 2);
+	mod->addNativeFn("newNative", complexNewNative, 2);
 
-	// register the complex type (register_type)
-	vm.registerType<VarComplex>(loc, "complex");
+	// register the complex type (registerType)
+	vm.registerType<VarComplex>(loc, "Complex");
 
 	vm.addNativeTypeFn<VarComplex>(loc, "+", complexAdd, 1);
 	vm.addNativeTypeFn<VarComplex>(loc, "-", complexSub, 1);

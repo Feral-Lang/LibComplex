@@ -1,4 +1,4 @@
-mload('complex/Complex');
+loadlib('complex/Complex');
 
 let new = fn(real = 0.0, imag = 0.0) {
 	return newNative(real, imag);

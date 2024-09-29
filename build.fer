@@ -1,16 +1,15 @@
-let io = import('std/io');
 let cmake = import('std/cmakeGen');
 
 let builder = cmake.new('complex');
 
 # requires the GNU MPC library
-let mpcDep = builder.addDep('mpc');
+let mpcDep = builder.addPkgDep('mpc');
 mpcDep.makeReqd();
 
 let complexType = builder.addSharedLib('ComplexType');
 complexType.addDep(mpcDep);
 
-let complex_lib = builder.addSharedLib('Complex');
-complex_lib.addDep(mpcDep).addDep(complexType);
+let complexLib = builder.addSharedLib('Complex');
+complexLib.addDep(mpcDep).addDep(complexType);
 
 builder.gen();
