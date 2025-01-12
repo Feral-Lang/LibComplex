@@ -1,15 +1,16 @@
-let cmake = import('std/cmakeGen');
+let builder = import('pkg/builder');
 
-let builder = cmake.new('complex');
+let project = builder.get();
 
-# requires the GNU MPC library
-let mpcDep = builder.addPkgDep('mpc');
-mpcDep.makeReqd();
+let libGmp = project.findLibrary('gmp');
+libGmp.makeRequired();
+let libMpfr = project.findLibrary('mpfr');
+libMpfr.makeRequired();
+let libMpc = project.findLibrary('mpc');
+libMpc.makeRequired();
 
-let complexType = builder.addSharedLib('ComplexType');
-complexType.addDep(mpcDep);
+let feralComplexType = project.addLibrary('ComplexType', 'ComplexType.cpp');
+feralComplexType.dependsOn(libGmp, libMpfr, libMpc);
 
-let complexLib = builder.addSharedLib('Complex');
-complexLib.addDep(mpcDep).addDep(complexType);
-
-builder.gen();
+let feralComplex = project.addLibrary('Complex', 'Complex.cpp');
+feralComplex.dependsOn(libGmp, libMpfr, libMpc, feralComplexType);

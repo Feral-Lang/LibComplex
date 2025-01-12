@@ -1,0 +1,6 @@
+author = 'Electrux';
+name = 'complex';
+version = '0.0.1';
+description = 'LibMPC based complex number library for Feral';
+source = 'https://github.com/Feral-Lang/LibComplex';
+# depends = {};
